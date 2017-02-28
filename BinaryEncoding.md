@@ -212,16 +212,17 @@ The content of each section is encoded in its `payload_data`.
 | Section Name | Code | Description |
 | ------------ | ---- | ----------- |
 | [Type](#type-section) | `1` | Function signature declarations |
-| [Import](#import-section) | `2` | Import declarations |
-| [Function](#function-section) | `3` | Function declarations |
-| [Table](#table-section) | `4` | Indirect function table and other tables |
-| [Memory](#memory-section) | `5` | Memory attributes |
-| [Global](#global-section) | `6` | Global declarations |
-| [Export](#export-section) | `7` | Exports | 
-| [Start](#start-section) | `8` | Start function declaration |
-| [Element](#element-section) | `9` | Elements section |
-| [Code](#code-section) | `10` | Function bodies (code) |
-| [Data](#data-section) | `11` | Data segments |
+| [Intrinsic](#intrinsic-section) | `2` | Standard library function declarations |
+| [Import](#import-section) | `3` | Import declarations |
+| [Function](#function-section) | `4` | Function declarations |
+| [Table](#table-section) | `5` | Indirect function table and other tables |
+| [Memory](#memory-section) | `6` | Memory attributes |
+| [Global](#global-section) | `7` | Global declarations |
+| [Export](#export-section) | `8` | Exports | 
+| [Start](#start-section) | `9` | Start function declaration |
+| [Element](#element-section) | `10` | Elements section |
+| [Code](#code-section) | `11` | Function bodies (code) |
+| [Data](#data-section) | `12` | Data segments |
 
 The end of the last present section must coincide with the last byte of the
 module. The shortest valid module is 8 bytes (`magic number`, `version`,
@@ -238,6 +239,16 @@ The type section declares all function signatures that will be used in the modul
 
 Note: In the [future :unicorn:][future types],
 this section may contain other forms of type entries as well, which can be distinguished by the `form` field of the type encoding.
+
+### Intrinsic section
+
+The intrinsic section declares all intrinsic functions that will be used in, and are defined in, the module.
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| count | `varuint32` | count of type entries to follow |
+| entries | `import_entry*` | repeated import entries as described below |
+
 
 ### Import section
 
