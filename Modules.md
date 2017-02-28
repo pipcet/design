@@ -10,6 +10,7 @@ are also designed to [integrate with ES6 modules](#integration-with-es6-modules)
 
 A module contains the following sections:
 
+* [stdlib](#stdlib)
 * [import](#imports)
 * [export](#exports)
 * [start](#module-start-function)
@@ -27,6 +28,14 @@ various operators and section fields in the module:
 * the [global index space](#global-index-space)
 * the [linear memory index space](#linear-memory-index-space)
 * the [table index space](#table-index-space)
+
+## Stdlib
+
+A module can declare a sequence of **standard library functions** which are either provided, at compilation time, by the host environment or defined in the module. Each such function must have a definition in the module, but it is up to the host environment whether this definition or a built-in one is used.
+
+In the MVP, only functions can be provided in this way. These functions are called using the [`call`](Semantics.md#calls)operator.
+
+Each standard library definition includes two names: a *library name* and an *export name*. In addition, it contains a function signature. Both the names and the function signatures must match the central register to avoid conflicts.
 
 ## Imports
 
@@ -298,11 +307,13 @@ available before compilation begins.
 
 ## Function Index Space
 
-The *function index space* indexes all imported and internally-defined
-function definitions, assigning monotonically-increasing indices based on the
-order of definition in the module (as defined by the [binary encoding](BinaryEncoding.md)).
-Thus, the index space starts at zero with the function imports (if any) followed
-by the functions defined within the module.
+The *function index space* indexes all standard library, imported, and
+internally-defined function definitions, assigning
+monotonically-increasing indices based on the order of definition in
+the module (as defined by the [binary encoding](BinaryEncoding.md)).
+Thus, the index space starts at zero with the standard library
+definitions, followed by the function imports (if any), followed by the
+functions defined within the module.
 
 The function index space is used by:
 
